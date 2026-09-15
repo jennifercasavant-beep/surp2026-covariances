@@ -3,6 +3,10 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# Large Data Files
+site_matrices.pkl.gz
+seedmix_hapfire_allele_frequency_random_switch_fixrm.csv
+
 # C extensions
 *.so
 
