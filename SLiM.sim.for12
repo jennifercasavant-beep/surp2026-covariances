@@ -1,0 +1,84 @@
+initialize() {
+	initializeMutationRate(MU);
+	
+	// m1 mutation type: neutral
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	
+	// g1 genomic element type: uses m1 for all mutations
+	initializeGenomicElementType("g1", m1, 1.0);
+	
+	// uniform chromosome of length 100 kb with Arabidopsis recombination rate
+	initializeGenomicElement(g1, 0, 999999);
+	initializeRecombinationRate(R);
+}
+
+// create a population of N individuals
+
+1 early() {
+	sim.addSubpop("p0", N); p0.setSelfingRate(S);
+}
+10*N early() {sim.addSubpopSplit("p1", N, p0); p1.setSelfingRate(S); sim.addSubpopSplit("p2", N, p0); p2.setSelfingRate(S); sim.addSubpopSplit("p3", N, p0); p3.setSelfingRate(S); sim.addSubpopSplit("p4", N, p0); p4.setSelfingRate(S); sim.addSubpopSplit("p5", N, p0); p5.setSelfingRate(S); sim.addSubpopSplit("p6", N, p0); p6.setSelfingRate(S); sim.addSubpopSplit("p7", N, p0); p7.setSelfingRate(S); sim.addSubpopSplit("p8", N, p0); p8.setSelfingRate(S); sim.addSubpopSplit("p9", N, p0); p9.setSelfingRate(S); sim.addSubpopSplit("p10", N, p0); p10.setSelfingRate(S); sim.addSubpopSplit("p11", N, p0); p11.setSelfingRate(S); sim.addSubpopSplit("p12", N, p0); p12.setSelfingRate(S);}
+
+10*N late() { mut = sim.mutationsOfType(m1); positions = mut.position; pos_str = paste(positions, sep=","); p0_freq = sim.mutationFrequencies(p0, mut); p0_str = paste(p0_freq, sep=","); pos_line = paste(paste0("pos_", sim.cycle, "_", sim_num, "s"), pos_str, sep=","); p0_line = paste(paste0("p0_", sim.cycle, "_", sim_num, "s"), p0_str, sep=","); writeFile("mutation_frequencies_sim12rep.csv", pos_line, append=T); writeFile("mutation_frequencies_sim12rep.csv", p0_line, append=T);}
+
+10*N late() {p0.setSubpopulationSize(0);}
+
+
+// output mutation frequencies at each pop
+
+(10*N+1):(10*N+3) late() { mut = sim.mutationsOfType(m1); print(length(mut)); positions = mut.position; pos_str = paste(positions, sep=",");
+
+p1_freq = sim.mutationFrequencies(p1, mut);
+p2_freq = sim.mutationFrequencies(p2, mut); 
+p3_freq = sim.mutationFrequencies(p3, mut); 
+p4_freq = sim.mutationFrequencies(p4, mut);
+p5_freq = sim.mutationFrequencies(p5, mut);
+p6_freq = sim.mutationFrequencies(p6, mut);
+p7_freq = sim.mutationFrequencies(p7, mut);
+p8_freq = sim.mutationFrequencies(p8, mut);
+p9_freq = sim.mutationFrequencies(p9, mut);
+p10_freq = sim.mutationFrequencies(p10, mut);
+p11_freq = sim.mutationFrequencies(p11, mut);
+p12_freq = sim.mutationFrequencies(p12, mut); 
+
+p1_str = paste(p1_freq, sep=",");
+p2_str = paste(p2_freq, sep=","); 
+p3_str = paste(p3_freq, sep=","); 
+p4_str = paste(p4_freq, sep=",");
+p5_str = paste(p5_freq, sep=",");
+p6_str = paste(p6_freq, sep=",");
+p7_str = paste(p7_freq, sep=",");
+p8_str = paste(p8_freq, sep=",");
+p9_str = paste(p9_freq, sep=",");
+p10_str = paste(p10_freq, sep=",");
+p11_str = paste(p11_freq, sep=",");
+p12_str = paste(p12_freq, sep=",");
+
+pos_line = paste(paste0("pos_", sim.cycle, "_", sim_num, "s"), pos_str, sep=",");
+p1_line = paste(paste0("Xs", sim_num, "_", sim.cycle, "_p1"), p1_str, sep=",");
+p2_line = paste(paste0("Xs", sim_num, "_", sim.cycle, "_p2"), p2_str, sep=",");
+p3_line = paste(paste0("Xs", sim_num, "_", sim.cycle, "_p3"), p3_str, sep=",");
+p4_line = paste(paste0("Xs", sim_num, "_", sim.cycle, "_p4"), p4_str, sep=",");
+p5_line = paste(paste0("Xs", sim_num, "_", sim.cycle, "_p5"), p5_str, sep=","); 
+p6_line = paste(paste0("Xs", sim_num, "_", sim.cycle, "_p6"), p6_str, sep=",");
+p7_line = paste(paste0("Ys", sim_num, "_", sim.cycle, "_p7"), p7_str, sep=",");
+p8_line = paste(paste0("Ys", sim_num, "_", sim.cycle, "_p8"), p8_str, sep=",");
+p9_line = paste(paste0("Ys", sim_num, "_", sim.cycle, "_p9"), p9_str, sep=",");
+p10_line = paste(paste0("Ys", sim_num, "_", sim.cycle, "_p10"), p10_str, sep=",");
+p11_line = paste(paste0("Ys", sim_num, "_", sim.cycle, "_p11"), p11_str, sep=",");
+p12_line = paste(paste0("Ys", sim_num, "_", sim.cycle, "_p12"), p12_str, sep=",");
+
+
+writeFile("mutation_frequencies_sim12rep.csv", pos_line, append=T);
+writeFile("mutation_frequencies_sim12rep.csv", p1_line, append=T);
+writeFile("mutation_frequencies_sim12rep.csv", p2_line, append=T); 
+writeFile("mutation_frequencies_sim12rep.csv", p3_line, append=T);
+writeFile("mutation_frequencies_sim12rep.csv", p4_line, append=T);
+writeFile("mutation_frequencies_sim12rep.csv", p5_line, append=T);
+writeFile("mutation_frequencies_sim12rep.csv", p6_line, append=T);
+writeFile("mutation_frequencies_sim12rep.csv", p7_line, append=T);
+writeFile("mutation_frequencies_sim12rep.csv", p8_line, append=T);
+writeFile("mutation_frequencies_sim12rep.csv", p9_line, append=T);
+writeFile("mutation_frequencies_sim12rep.csv", p10_line, append=T);
+writeFile("mutation_frequencies_sim12rep.csv", p11_line, append=T);
+writeFile("mutation_frequencies_sim12rep.csv", p12_line, append=T);}

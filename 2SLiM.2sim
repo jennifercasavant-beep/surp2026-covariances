@@ -1,0 +1,47 @@
+// MU = (mutation rate) = 7e-9
+// R = (recombination rate) = 8.06452e-10
+
+// set up a simple neutral simulation with Arabidopsis mutation rate
+initialize() {
+	initializeMutationRate(MU);
+	
+	// m1 mutation type: neutral
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	
+	// g1 genomic element type: uses m1 for all mutations
+	initializeGenomicElementType("g1", m1, 1.0);
+	
+	// uniform chromosome of length 100 kb with Arabidopsis recombination rate
+	initializeGenomicElement(g1, 0, 999999);
+	initializeRecombinationRate(R);
+}
+
+// create a population of N individuals
+
+1 early() {
+	sim.addSubpop("p1", N);
+}
+10*N early() {sim.addSubpopSplit("p2", N, p1); sim.addSubpopSplit("p3", N, p1);}
+
+10*N late() { mut = sim.mutationsOfType(m1); positions = mut.position; pos_str = paste(positions, sep=","); p0_freq = sim.mutationFrequencies(p1, mut); p0_str = paste(p0_freq, sep=","); pos_line = paste(paste0("pos_", sim.cycle, "_s", sim_num), pos_str, sep=","); p0_line = paste(paste0("p0_", sim.cycle, "_s", sim_num), p0_str, sep=","); writeFile("mutation_frequencies_sims2.csv", pos_line, append=T); writeFile("mutation_frequencies_sims2.csv", p0_line, append=T);}
+
+10*N late() {p1.setSubpopulationSize(0);}
+
+
+// output mutation frequencies at each pop
+
+(10*N+1):(10*N+3) late() { mut = sim.mutationsOfType(m1); print(length(mut)); positions = mut.position; pos_str = paste(positions, sep=",");
+
+p2_freq = sim.mutationFrequencies(p2, mut); 
+p3_freq=sim.mutationFrequencies(p3, mut); 
+
+p2_str = paste(p2_freq, sep=","); 
+p3_str = paste(p3_freq, sep=","); 
+
+pos_line = paste(paste0("pos_", sim.cycle, "_s", sim_num), pos_str, sep=",");
+p2_line = paste(paste0("p2_", sim.cycle, "_s", sim_num), p2_str, sep=",");
+p3_line = paste(paste0("p3_", sim.cycle, "_s", sim_num), p3_str, sep=",");
+
+writeFile("mutation_frequencies_sims2.csv", pos_line, append=T);
+writeFile("mutation_frequencies_sims2.csv", p2_line, append=T); 
+writeFile("mutation_frequencies_sims2.csv", p3_line, append=T);}
