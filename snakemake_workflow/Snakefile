@@ -13,4 +13,4 @@ rule slim_sim:
 		"workflow/envs/slim-env.yaml"
 
 	shell:
-		"slim -d MU=7e-9 -d R=8.06452e-10 -d N=1500 -d S=0.95 -d sim_num={wildcards.sim_num} SLiM.for.snakemake" 	
+		"slim -d MU=7e-9 -d R=8.06452e-10 -d N=7500 -d S=0 -d sim_num={wildcards.sim_num} SLiM.for.snakemake" 	
